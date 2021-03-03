@@ -1,0 +1,200 @@
+﻿<Window x:Class="GarticPhone.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
+        xmlns:local="clr-namespace:GarticPhone"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="900" Width="1600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="250"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="150"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--PaintSurface-->
+        <skia:SKElement x:Name="skElement" PaintSurface="OnPaintSurface" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="skElement_MouseLeftButtonDown" MouseMove="skElement_MouseMove" MouseDown="skElement_MouseDown" MouseUp="skElement_MouseUp"/>
+
+
+        <!--Button to change StrokeWidth-->
+        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="25,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth1_Button_Click">
+            <Button.Content>
+                <Ellipse Width="7" Height="7" Fill="Black"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="100,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth2_Button_Click">
+            <Button.Content>
+                <Ellipse Width="12" Height="12" Fill="Black"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="175,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth3_Button_Click">
+            <Button.Content>
+                <Ellipse Width="17" Height="17" Fill="Black"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="250,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth4_Button_Click">
+            <Button.Content>
+                <Ellipse Width="22" Height="22" Fill="Black"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="325,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth5_Button_Click">
+            <Button.Content>
+                <Ellipse Width="27" Height="27" Fill="Black"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <!--Button to change Color-->
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="BlackColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="Black"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="SlateGrayColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#708090"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="WhiteColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#F2F2F2"></Ellipse>
+            </Button.Content>
+        </Button>
+
+
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,90,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="MediumOrchidColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#BA55D3"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,90,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="DarkOrchid">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#9932CC"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,90,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="DarkBlueColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#00008B"></Ellipse>
+            </Button.Content>
+        </Button>
+
+
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,170,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="MediumSlateBlueColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#7B68EE"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,170,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="LightSkyBlueColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#87CEFA"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,170,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="YellowGreenColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#9ACD32"></Ellipse>
+            </Button.Content>
+        </Button>
+
+
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,250,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="GreenColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#008000"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,250,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="YellowColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#FFFF00"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,250,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="OrangeColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#FFA500"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,330,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="PinkColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#FFC0CB"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,330,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="HotPinkColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#FF69B4"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,330,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="RedColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#FF0000"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,410,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="FireBrickColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#B22222"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,410,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="AnthiqueWhiteColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#FAEBD7"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,410,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="SaddleBrownColor">
+            <Button.Content>
+                <Ellipse Width="56" Height="56" Fill="#8B4513"></Ellipse>
+            </Button.Content>
+        </Button>
+
+
+        <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10,490,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="230">
+            <Button.Content>
+                <Rectangle x:Name="CurrentColor" Width="226" Height="56" Fill="Black"></Rectangle>
+            </Button.Content>
+        </Button>
+
+
+
+        <!--Button to modify Draw-->
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/pen.png" Width="88" Height="88"></Image>
+        </Button>
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/rubber.png" Width="88" Height="88"/>
+        </Button>
+
+
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/square.png" Width="88" Height="88"/>
+        </Button>
+
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/circle.png" Width="88" Height="88"/>
+        </Button>
+
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/squareFilled.png" Width="88" Height="88"/>
+        </Button>
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/circleFilled.png" Width="88" Height="88"/>
+        </Button>
+
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/line.png" Width="88" Height="88"/>
+        </Button>
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/fill.png" Width="88" Height="88"/>
+        </Button>
+
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/goBack.png" Width="88" Height="88"/>
+        </Button>
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+            <Image Source="Pictures/goFront.png" Width="88" Height="88"/>
+        </Button>
+
+    </Grid>
+</Window>
