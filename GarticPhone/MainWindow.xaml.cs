@@ -62,13 +62,15 @@ namespace GarticPhone
 			var surface = e.Surface;
 			var canvas = surface.Canvas;
 
-            // Si tu dois redessiner la surface
-            //canvas.Clear();
+            //Verification
             if (_state == State.squareFilled || _state == State.circleFilled)
+            {
                 _isFilled = SKPaintStyle.Fill;
+            }
             else
+            {
                 _isFilled = SKPaintStyle.Stroke;
-
+            }
             if(_state == State.rubber)
             {
                 _skColor = new SKColor(255, 255, 255);
@@ -80,13 +82,13 @@ namespace GarticPhone
                 byte b = ((Color)CurrentColor.Fill.GetValue(SolidColorBrush.ColorProperty)).B;
                 _skColor = new SKColor(r, g, b);
             }
-
 			var paint = new SKPaint()
 			{
 				Style = _isFilled,
 				Color = _skColor,
 				StrokeWidth = _strokeWidth
 			};
+
 
             switch (_state)
             {
