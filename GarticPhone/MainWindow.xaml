@@ -159,40 +159,39 @@
 
 
         <!--Button to modify Draw-->
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnPen">
             <Image Source="Pictures/pen.png" Width="88" Height="88"></Image>
         </Button>
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnRubber">
             <Image Source="Pictures/rubber.png" Width="88" Height="88"/>
         </Button>
 
 
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnSquare">
             <Image Source="Pictures/square.png" Width="88" Height="88"/>
         </Button>
-
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnCircle">
             <Image Source="Pictures/circle.png" Width="88" Height="88"/>
         </Button>
 
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnSquareFilled">
             <Image Source="Pictures/squareFilled.png" Width="88" Height="88"/>
         </Button>
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnCircleFilled">
             <Image Source="Pictures/circleFilled.png" Width="88" Height="88"/>
         </Button>
 
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnLine">
             <Image Source="Pictures/line.png" Width="88" Height="88"/>
         </Button>
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnFill">
             <Image Source="Pictures/fill.png" Width="88" Height="88"/>
         </Button>
 
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnCancel">
             <Image Source="Pictures/goBack.png" Width="88" Height="88"/>
         </Button>
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90">
+        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnRestore">
             <Image Source="Pictures/goFront.png" Width="88" Height="88"/>
         </Button>
 

@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "UJDzIFAl5OmQqdzhXJraTltk0qg8yyIqY9ZEBYQGgfegQq3UqgUvxjcfrgLa2zHj08YxkKA1P7+nfHi6jVaapQ==",
+  "success": true,
+  "projectFilePath": "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\GarticPhone.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Corentin\\.nuget\\packages\\skiasharp\\2.80.2\\skiasharp.2.80.2.nupkg.sha512",
+    "C:\\Users\\Corentin\\.nuget\\packages\\skiasharp.views.desktop.common\\2.80.2\\skiasharp.views.desktop.common.2.80.2.nupkg.sha512",
+    "C:\\Users\\Corentin\\.nuget\\packages\\skiasharp.views.wpf\\2.80.2\\skiasharp.views.wpf.2.80.2.nupkg.sha512",
+    "C:\\Users\\Corentin\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+  ],
+  "logs": []
+}
