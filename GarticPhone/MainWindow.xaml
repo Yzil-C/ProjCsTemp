@@ -18,6 +18,10 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="150"></RowDefinition>
         </Grid.RowDefinitions>
+        
+        <!--Top Label-->
+        <Label x:Name = "TextToDraw" Content="Text To Draw" Grid.Column="1" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="1000" Height="100" FontFamily="Consolas" FontSize="28"/>
+        
         <!--PaintSurface-->
         <skia:SKElement x:Name="skElement" PaintSurface="OnPaintSurface" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="skElement_MouseLeftButtonDown" MouseMove="skElement_MouseMove" MouseDown="skElement_MouseDown" MouseUp="skElement_MouseUp"/>
 
@@ -160,40 +164,44 @@
 
         <!--Button to modify Draw-->
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnPen">
-            <Image Source="Pictures/pen.png" Width="88" Height="88"></Image>
+            <Image Source="Resource/pen.png" Width="88" Height="88"></Image>
         </Button>
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnRubber">
-            <Image Source="Pictures/rubber.png" Width="88" Height="88"/>
+            <Image Source="Resource/rubber.png" Width="88" Height="88"/>
         </Button>
 
 
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnSquare">
-            <Image Source="Pictures/square.png" Width="88" Height="88"/>
+            <Image Source="Resource/square.png" Width="88" Height="88"/>
         </Button>
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnCircle">
-            <Image Source="Pictures/circle.png" Width="88" Height="88"/>
+            <Image Source="Resource/circle.png" Width="88" Height="88"/>
         </Button>
 
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnSquareFilled">
-            <Image Source="Pictures/squareFilled.png" Width="88" Height="88"/>
+            <!--<Button.Background>
+                <ImageBrush ImageSource="/GarticPhone;component/Pictures/squareFilled.png"/>
+            </Button.Background>-->
+            <Image Source="Resource/squareFilled.png" Width="88" Height="88"/>
         </Button>
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnCircleFilled">
-            <Image Source="Pictures/circleFilled.png" Width="88" Height="88"/>
+            <Image Source="/GarticPhone;component/Resource/circleFilled.png" Width="88" Height="88"/>
         </Button>
 
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnLine">
-            <Image Source="Pictures/line.png" Width="88" Height="88"/>
+            <Image Source="Resource/line.png" Width="88" Height="88"/>
         </Button>
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnFill">
-            <Image Source="Pictures/fill.png" Width="88" Height="88"/>
+            <Image Source="Resource/fill.png" Width="88" Height="88"/>
         </Button>
 
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnCancel">
-            <Image Source="Pictures/goBack.png" Width="88" Height="88"/>
+            <Image Source="Resource/goBack.png" Width="88" Height="88"/>
         </Button>
         <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnRestore">
-            <Image Source="Pictures/goFront.png" Width="88" Height="88"/>
+            <Image Source="Resource/goFront.png" Width="88" Height="88"/>
         </Button>
+        
 
     </Grid>
 </Window>

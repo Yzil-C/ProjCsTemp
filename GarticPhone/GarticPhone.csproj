@@ -7,7 +7,35 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resource\circle.png" />
+    <None Remove="Resource\circleFilled.png" />
+    <None Remove="Resource\Fill.png" />
+    <None Remove="Resource\goBack.png" />
+    <None Remove="Resource\goFront.png" />
+    <None Remove="Resource\line.png" />
+    <None Remove="Resource\logo.png" />
+    <None Remove="Resource\pen.png" />
+    <None Remove="Resource\rubber.png" />
+    <None Remove="Resource\square.png" />
+    <None Remove="Resource\squareFilled.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\circle.png" />
+    <Resource Include="Resource\circleFilled.png" />
+    <Resource Include="Resource\Fill.png" />
+    <Resource Include="Resource\goBack.png" />
+    <Resource Include="Resource\goFront.png" />
+    <Resource Include="Resource\line.png" />
+    <Resource Include="Resource\logo.png" />
+    <Resource Include="Resource\pen.png" />
+    <Resource Include="Resource\rubber.png" />
+    <Resource Include="Resource\square.png" />
+    <Resource Include="Resource\squareFilled.png" />
   </ItemGroup>
 
 </Project>
