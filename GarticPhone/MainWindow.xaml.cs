@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using GarticPhone.Models;
+using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Generic;
@@ -29,32 +30,27 @@ namespace GarticPhone
         squareFilled,
         circleFilled,
         line,
-        fill
-    }
-
-    public enum RollBack
-    {
-        soft,
+        fill,
         undo,
         redo
     }
     public partial class MainWindow : Window
     {
+        private List<Object> _history = new List<Object>();
+        private int _nbOfAction = 0;
 		private SKPath _skPath;
 		private SKColor _skColor = new SKColor(0,0,0);
 		private SKPoint? _skPoint;
         private SKPoint  _secondSkPoint;
+        private SKRect _skRect;
+        private SKCircle _skCircle;
         private SKPaintStyle _isFilled = SKPaintStyle.Stroke;
         private int _strokeWidth = 5;
-
-        private float _rectangleWidth;
-        private float _rectangleHeight;
-        private float _radius;
 
 		private bool _isMouseDown = false;
 		
         private State _state = State.pen;
-        private RollBack _rollBack = RollBack.soft;
+        private State _previousState = State.pen;
 
 		public Window Window => Application.Current.MainWindow;
 		public DpiScale DpiScale => VisualTreeHelper.GetDpi(Window);
@@ -90,6 +86,7 @@ namespace GarticPhone
                 byte b = ((Color)CurrentColor.Fill.GetValue(SolidColorBrush.ColorProperty)).B;
                 _skColor = new SKColor(r, g, b);
             }
+
 			var paint = new SKPaint()
 			{
 				Style = _isFilled,
@@ -103,27 +100,32 @@ namespace GarticPhone
                 default:
                     if (_skPath != null)
                     {
+                        _history.Add(_skPath);
                         canvas.DrawPath(_skPath, paint);
                     }
                     if (_skPoint != null)
                     {
+                        _history.Add(_skPoint);
                         canvas.DrawPoint(_skPoint.Value, paint);
                     }
                     break;
                 case State.square:
-                    canvas.DrawRect((float)_skPoint.Value.X, (float)_skPoint.Value.Y, _rectangleWidth, _rectangleHeight, paint);
+                    _history.Add(_skRect);
+                    canvas.DrawRect(_skRect, paint);
                     break;
 
                 case State.circle:
-                    canvas.DrawCircle(_skPoint.Value, _radius, paint);
+                    _history.Add(_skCircle);
+                    canvas.DrawCircle(_skCircle.Point, _skCircle.Radius, paint);
                     break;
 
                 case State.squareFilled:
-                    canvas.DrawRect((float)_skPoint.Value.X, (float)_skPoint.Value.Y, _rectangleWidth, _rectangleHeight, paint);
+                    canvas.DrawRect(_skRect, paint);
                     break;
 
                 case State.circleFilled:
-                    canvas.DrawCircle(_skPoint.Value, _radius, paint);
+                    _history.Add(_skCircle);
+                    canvas.DrawCircle(_skCircle.Point, _skCircle.Radius, paint);
                     break;
 
                 case State.line:
@@ -131,10 +133,20 @@ namespace GarticPhone
                     break;
 
                 case State.fill:
-                    canvas.DrawPoint(_skPoint.Value, paint);
+                    canvas.DrawPath(_skPath, paint);
+                    break;
+
+                case State.undo:                
+                    canvas.Clear();      
+                    _nbOfAction--;
+                    _state = _previousState;
+                    break;
+
+                case State.redo:
                     break;
             }
-            
+            _nbOfAction++;
+
 		}
 
         private void skElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -158,8 +170,17 @@ namespace GarticPhone
                     break;
                 case State.line:
                     break;
+                case State.fill:
+                    _skPath = new SKPath
+                    {
+                        FillType = SKPathFillType.InverseWinding
+                    };
+                    _skPath.MoveTo(new SKPoint((float)x - 250, (float)y - 150));
+                    //_skPath.LineTo(new SKPoint((float)x - 250, (float)y - 150));
+                    skElement.InvalidateVisual();
+                    break;
             }
-		}
+        }
 
         private void skElement_MouseMove(object sender, MouseEventArgs e)
         {
@@ -173,7 +194,6 @@ namespace GarticPhone
                     default:
                         var skPoint = new SKPoint((float)x - 250, (float)y - 150);
                         _skPath.LineTo(skPoint);
-                        _isFilled = SKPaintStyle.Stroke;
                         skElement.InvalidateVisual();
                         break;
                     case State.square: 
@@ -243,24 +263,24 @@ namespace GarticPhone
                     _skPath = null;
                     break;
                 case State.square:
-                    _rectangleWidth = (float)((x - 250) - _skPoint.Value.X);
-                    _rectangleHeight = (float)((y - 150) - _skPoint.Value.Y);
+                    _skRect = new SKRect((float)_skPoint.Value.X, (float)_skPoint.Value.Y, (float)(x - 250), (float)(y - 150));
                     skElement.InvalidateVisual();
                     break;
 
                 case State.circle:
-                    _radius = (float)Math.Sqrt(Math.Pow((x - 250) - _skPoint.Value.X, 2) + Math.Pow((y - 150) - _skPoint.Value.Y, 2));
+                    float radius = (float)Math.Sqrt(Math.Pow((x - 250) - _skPoint.Value.X, 2) + Math.Pow((y - 150) - _skPoint.Value.Y, 2));
+                    _skCircle = new SKCircle(_skPoint.Value, radius);
                     skElement.InvalidateVisual();
                     break;
 
                 case State.squareFilled:
-                    _rectangleWidth = (float)((x - 250) - _skPoint.Value.X);
-                    _rectangleHeight = (float)((y - 150) - _skPoint.Value.Y);
+                    _skRect = new SKRect((float)_skPoint.Value.X, (float)_skPoint.Value.Y, (float)(x - 250), (float)(y - 150));
                     skElement.InvalidateVisual();
                     break;
 
                 case State.circleFilled:
-                    _radius = (float)Math.Sqrt(Math.Pow((x - 250) - _skPoint.Value.X, 2) + Math.Pow((y - 150) - _skPoint.Value.Y, 2));
+                    float radiusFilled = (float)Math.Sqrt(Math.Pow((x - 250) - _skPoint.Value.X, 2) + Math.Pow((y - 150) - _skPoint.Value.Y, 2));
+                    _skCircle = new SKCircle(_skPoint.Value,radiusFilled);
                     skElement.InvalidateVisual();
                     break;
 
@@ -433,13 +453,13 @@ namespace GarticPhone
 
         private void OnCancel(object sender, RoutedEventArgs e)
         {
-            _rollBack = RollBack.undo;
+            _previousState = _state;
+            _state = State.undo;
             skElement.InvalidateVisual();
         }
 
         private void OnRestore(object sender, RoutedEventArgs e)
         {
-            _rollBack = RollBack.redo;
         }
     }
 }

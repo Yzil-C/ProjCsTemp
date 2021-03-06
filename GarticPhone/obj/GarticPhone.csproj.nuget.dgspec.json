@@ -1,27 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\GarticPhone.csproj": {}
+    "C:\\Users\\coren\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj": {}
   },
   "projects": {
-    "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\GarticPhone.csproj": {
+    "C:\\Users\\coren\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\GarticPhone.csproj",
+        "projectUniqueName": "C:\\Users\\coren\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj",
         "projectName": "GarticPhone",
-        "projectPath": "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\GarticPhone.csproj",
-        "packagesPath": "C:\\Users\\Corentin\\.nuget\\packages\\",
-        "outputPath": "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\obj\\",
+        "projectPath": "C:\\Users\\coren\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj",
+        "packagesPath": "C:\\Users\\coren\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\coren\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Corentin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\coren\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "D:\\OneDrive\\OneDrive - CampusID\\B2\\Exercices\\C#\\Periode_1\\NuGet": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -63,7 +68,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
