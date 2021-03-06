@@ -32,7 +32,8 @@ namespace GarticPhone
         line,
         fill,
         undo,
-        redo
+        redo,
+        firstRound
     }
     public partial class MainWindow : Window
     {
@@ -41,8 +42,9 @@ namespace GarticPhone
         private Dictionary<Object,SKPaint> _paintHistory = new Dictionary<Object,SKPaint>();
         private Dictionary<Object, SKPaint> _paintToRedo = new Dictionary<Object, SKPaint>();
 
-		private SKPath _skPath;
-		private SKColor _skColor = new SKColor(0,0,0);
+		private SKPath _skPath = new SKPath();
+        private List<SKPath> _listOfSkPaths;
+		private SKColor _skColor;
 		private SKPoint? _skPoint;
         private SKLine _skLine;
         private SKRect _skRect;
@@ -52,8 +54,8 @@ namespace GarticPhone
 
 		private bool _isMouseDown = false;
         private bool _canRedo = false;
-		
-        private State _state = State.pen;
+
+        private State _state = State.firstRound;
         private State _previousState = State.pen;
 
 		public Window Window => Application.Current.MainWindow;
@@ -97,29 +99,17 @@ namespace GarticPhone
 				Color = _skColor,
 				StrokeWidth = _strokeWidth
 			};
-            var paintForPointAndPath = new SKPaint()
-            {
-                Style = SKPaintStyle.Stroke,
-                Color = _skColor,
-                StrokeWidth = _strokeWidth
-            };
 
             switch (_state)
             {
-                default:
-                    if (_skPath != null)
-                    {
-                        //_paintHistory.Add(_skPath,paint);
-                        _history.Push(_skPath);
-                        canvas.DrawPath(_skPath, paint);
-                    }
-                    if (_skPoint != null)
-                    {
-                        //_paintHistory.Add(_skPoint,paint);
-                        _history.Push(_skPoint);
-                        canvas.DrawPoint(_skPoint.Value, paint);
-                    }
+                case State.pen:
+                    canvas.DrawPath(_skPath, paint);
                     break;
+
+                case State.rubber:
+                    canvas.DrawPath(_skPath, paint);
+                    break;
+
                 case State.square:
                     _paintHistory.Add(_skRect,paint);
                     _history.Push(_skRect);
@@ -162,16 +152,21 @@ namespace GarticPhone
                         _paintToRedo.Add(_history.Peek(), _paintHistory[_history.Peek()]);
                         _paintHistory.Remove(_history.Peek());
                         _historyToRedo.Push(_history.Pop());
+
                         foreach (var element in _history)
                         {
                             switch (element.GetType().Name)
                             {
-                                case "SKPath":
-                                    canvas.DrawPath((SKPath)element, paintForPointAndPath);
+                                default:
+                                    var tempPaths = (List<SKPath>)element;
+                                    foreach(var path in tempPaths)
+                                    {
+                                        canvas.DrawPath(path, _paintHistory[element]);
+                                    }
                                     break;
 
                                 case "SKPoint":
-                                    canvas.DrawPoint((SKPoint)element, paintForPointAndPath);
+                                    canvas.DrawPoint((SKPoint)element, _paintHistory[element]);
                                     break;
 
                                 case "SKCircle":
@@ -201,11 +196,11 @@ namespace GarticPhone
                         switch (element.GetType().Name)
                         {
                             case "SKPath":
-                                canvas.DrawPath((SKPath)element, paintForPointAndPath);
+                                canvas.DrawPath((SKPath)element, _paintToRedo[element]);
                                 break;
 
                             case "SKPoint":
-                                canvas.DrawPoint((SKPoint)element, paintForPointAndPath);
+                                canvas.DrawPoint((SKPoint)element, _paintToRedo[element]);
                                 break;
 
                             case "SKCircle":
@@ -228,6 +223,10 @@ namespace GarticPhone
 
                     }  
                     break;
+
+                case State.firstRound:
+                    _state = State.pen;
+                    break;
             }
             
 
@@ -235,6 +234,7 @@ namespace GarticPhone
 
         private void skElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            
             _canRedo = false;
             var pixelPosition = e.GetPosition(sender as Canvas);
             var x = pixelPosition.X * DpiScale.DpiScaleX;
@@ -242,7 +242,10 @@ namespace GarticPhone
             switch (_state)
             {
                 default:
-                    _skPoint = new SKPoint((float)x - 250, (float)y - 150);
+                    _skPath.MoveTo(new SKPoint((float)x - 250, (float)y - 150));
+                    _listOfSkPaths = new List<SKPath>();
+                    _listOfSkPaths.Add(_skPath);
+                    _skPath.LineTo(new SKPoint((float)x - 250 + _strokeWidth, (float)y - 150 + _strokeWidth));
                     skElement.InvalidateVisual();
                     break;
                 case State.square:
@@ -265,53 +268,24 @@ namespace GarticPhone
                     skElement.InvalidateVisual();
                     break;
             }
+            
         }
-
-        private void skElement_MouseMove(object sender, MouseEventArgs e)
-        {
-			if (_isMouseDown)
-			{
-                _canRedo = false;
-                var pixelPosition = e.GetPosition(sender as Canvas);
-                var x = pixelPosition.X * DpiScale.DpiScaleX;
-                var y = pixelPosition.Y * DpiScale.DpiScaleY;
-                switch (_state)
-                {
-                    default:
-                        var skPoint = new SKPoint((float)x - 250, (float)y - 150);
-                        _skPath.LineTo(skPoint);
-                        skElement.InvalidateVisual();
-                        break;
-                    case State.square: 
-                        break;
-                    case State.circle:
-                        break;
-                    case State.squareFilled:
-                        break;
-                    case State.circleFilled:
-                        break;
-                    case State.line:
-                        break;
-                    case State.fill:
-                        break;
-                }
-				
-			}
-		}
 
         private void skElement_MouseDown(object sender, MouseButtonEventArgs e)
         {
             _canRedo = false;
-			_isMouseDown = true;
-			var pixelPosition = e.GetPosition(sender as Canvas);
-			var x = pixelPosition.X * DpiScale.DpiScaleX;
-			var y = pixelPosition.Y * DpiScale.DpiScaleY;
+            _isMouseDown = true;
+            var pixelPosition = e.GetPosition(sender as Canvas);
+            var x = pixelPosition.X * DpiScale.DpiScaleX;
+            var y = pixelPosition.Y * DpiScale.DpiScaleY;
             switch (_state)
             {
                 default:
                     var skPoint = new SKPoint((float)x - 250, (float)y - 150);
                     _skPath = new SKPath();
                     _skPath.MoveTo(skPoint);
+                    _listOfSkPaths = new List<SKPath>();
+                    _listOfSkPaths.Add(_skPath);
                     break;
                 case State.square:
                     _skPoint = new SKPoint((float)x - 250, (float)y - 150);
@@ -338,6 +312,41 @@ namespace GarticPhone
             }
         }
 
+        private void skElement_MouseMove(object sender, MouseEventArgs e)
+        {
+			if (_isMouseDown)
+			{
+                _canRedo = false;
+                var pixelPosition = e.GetPosition(sender as Canvas);
+                var x = pixelPosition.X * DpiScale.DpiScaleX;
+                var y = pixelPosition.Y * DpiScale.DpiScaleY;
+                switch (_state)
+                {
+                    default:
+                        var skPoint = new SKPoint((float)x - 250, (float)y - 150);
+                        _skPath.LineTo(skPoint);
+                        _listOfSkPaths.Add(_skPath);
+                        skElement.InvalidateVisual();
+                        break;
+                    case State.square: 
+                        break;
+                    case State.circle:
+                        break;
+                    case State.squareFilled:
+                        break;
+                    case State.circleFilled:
+                        break;
+                    case State.line:
+                        break;
+                    case State.fill:
+                        break;
+                }
+				
+			}
+		}
+
+        
+
         private void skElement_MouseUp(object sender, MouseButtonEventArgs e)
         {
             _canRedo = false;
@@ -348,7 +357,15 @@ namespace GarticPhone
             switch (_state)
             {
                 default:
-                    _skPath = null;
+                    var paint = new SKPaint()
+                    {
+                        Style = _isFilled,
+                        Color = _skColor,
+                        StrokeWidth = _strokeWidth
+                    };
+                    _history.Push(_listOfSkPaths);
+                    _paintHistory.Add(_listOfSkPaths, paint);
+                    _listOfSkPaths = null;
                     break;
                 case State.square:
                     _skRect = new SKRect((float)_skPoint.Value.X, (float)_skPoint.Value.Y, (float)(x - 250), (float)(y - 150));
