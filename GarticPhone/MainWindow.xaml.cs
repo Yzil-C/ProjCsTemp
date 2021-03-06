@@ -97,20 +97,25 @@ namespace GarticPhone
 				Color = _skColor,
 				StrokeWidth = _strokeWidth
 			};
-
+            var paintForPointAndPath = new SKPaint()
+            {
+                Style = SKPaintStyle.Stroke,
+                Color = _skColor,
+                StrokeWidth = _strokeWidth
+            };
 
             switch (_state)
             {
                 default:
                     if (_skPath != null)
                     {
-                        _paintHistory.Add(_skPath,paint);
+                        //_paintHistory.Add(_skPath,paint);
                         _history.Push(_skPath);
                         canvas.DrawPath(_skPath, paint);
                     }
                     if (_skPoint != null)
                     {
-                        _paintHistory.Add(_skPoint,paint);
+                        //_paintHistory.Add(_skPoint,paint);
                         _history.Push(_skPoint);
                         canvas.DrawPoint(_skPoint.Value, paint);
                     }
@@ -162,11 +167,11 @@ namespace GarticPhone
                             switch (element.GetType().Name)
                             {
                                 case "SKPath":
-                                    canvas.DrawPath((SKPath)element, _paintHistory[element]);
+                                    canvas.DrawPath((SKPath)element, paintForPointAndPath);
                                     break;
 
                                 case "SKPoint":
-                                    canvas.DrawPoint((SKPoint)element, _paintHistory[element]);
+                                    canvas.DrawPoint((SKPoint)element, paintForPointAndPath);
                                     break;
 
                                 case "SKCircle":
@@ -196,11 +201,11 @@ namespace GarticPhone
                         switch (element.GetType().Name)
                         {
                             case "SKPath":
-                                canvas.DrawPath((SKPath)element, _paintToRedo[element]);
+                                canvas.DrawPath((SKPath)element, paintForPointAndPath);
                                 break;
 
                             case "SKPoint":
-                                canvas.DrawPoint((SKPoint)element, _paintToRedo[element]);
+                                canvas.DrawPoint((SKPoint)element, paintForPointAndPath);
                                 break;
 
                             case "SKCircle":
