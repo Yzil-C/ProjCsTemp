@@ -36,18 +36,22 @@ namespace GarticPhone
     }
     public partial class MainWindow : Window
     {
-        private List<Object> _history = new List<Object>();
-        private int _nbOfAction = 0;
+        private Stack<Object> _history = new Stack<Object>();
+        private Stack<Object> _historyToRedo = new Stack<Object>();
+        private Dictionary<Object,SKPaint> _paintHistory = new Dictionary<Object,SKPaint>();
+        private Dictionary<Object, SKPaint> _paintToRedo = new Dictionary<Object, SKPaint>();
+
 		private SKPath _skPath;
 		private SKColor _skColor = new SKColor(0,0,0);
 		private SKPoint? _skPoint;
-        private SKPoint  _secondSkPoint;
+        private SKLine _skLine;
         private SKRect _skRect;
         private SKCircle _skCircle;
         private SKPaintStyle _isFilled = SKPaintStyle.Stroke;
         private int _strokeWidth = 5;
 
 		private bool _isMouseDown = false;
+        private bool _canRedo = false;
 		
         private State _state = State.pen;
         private State _previousState = State.pen;
@@ -100,57 +104,133 @@ namespace GarticPhone
                 default:
                     if (_skPath != null)
                     {
-                        _history.Add(_skPath);
+                        _paintHistory.Add(_skPath,paint);
+                        _history.Push(_skPath);
                         canvas.DrawPath(_skPath, paint);
                     }
                     if (_skPoint != null)
                     {
-                        _history.Add(_skPoint);
+                        _paintHistory.Add(_skPoint,paint);
+                        _history.Push(_skPoint);
                         canvas.DrawPoint(_skPoint.Value, paint);
                     }
                     break;
                 case State.square:
-                    _history.Add(_skRect);
+                    _paintHistory.Add(_skRect,paint);
+                    _history.Push(_skRect);
                     canvas.DrawRect(_skRect, paint);
                     break;
 
                 case State.circle:
-                    _history.Add(_skCircle);
+                    _paintHistory.Add(_skCircle,paint);
+                    _history.Push(_skCircle);
                     canvas.DrawCircle(_skCircle.Point, _skCircle.Radius, paint);
                     break;
 
                 case State.squareFilled:
+                    _paintHistory.Add(_skRect,paint);
+                    _history.Push(_skRect);
                     canvas.DrawRect(_skRect, paint);
                     break;
 
                 case State.circleFilled:
-                    _history.Add(_skCircle);
+                    _paintHistory.Add(_skCircle,paint);
+                    _history.Push(_skCircle);
                     canvas.DrawCircle(_skCircle.Point, _skCircle.Radius, paint);
                     break;
 
                 case State.line:
-                    canvas.DrawLine(_skPoint.Value, _secondSkPoint, paint);
+                    _paintHistory.Add(_skLine,paint);
+                    _history.Push(_skLine);
+                    canvas.DrawLine(_skLine.FirstPoint, _skLine.SecondPoint, paint);
                     break;
 
                 case State.fill:
                     canvas.DrawPath(_skPath, paint);
                     break;
 
-                case State.undo:                
-                    canvas.Clear();      
-                    _nbOfAction--;
-                    _state = _previousState;
+                case State.undo:
+                    if(_history.Count > 0)
+                    {
+                        _canRedo = true;
+                        canvas.Clear();
+                        _paintToRedo.Add(_history.Peek(), _paintHistory[_history.Peek()]);
+                        _paintHistory.Remove(_history.Peek());
+                        _historyToRedo.Push(_history.Pop());
+                        foreach (var element in _history)
+                        {
+                            switch (element.GetType().Name)
+                            {
+                                case "SKPath":
+                                    canvas.DrawPath((SKPath)element, _paintHistory[element]);
+                                    break;
+
+                                case "SKPoint":
+                                    canvas.DrawPoint((SKPoint)element, _paintHistory[element]);
+                                    break;
+
+                                case "SKCircle":
+                                    SKCircle tempCircle = (SKCircle)element;
+                                    canvas.DrawCircle(tempCircle.Point, tempCircle.Radius, _paintHistory[element]);
+                                    break;
+
+                                case "SKRect":
+                                    canvas.DrawRect((SKRect)element, _paintHistory[element]);
+                                    break;
+
+                                case "SKLine":
+                                    SKLine tempLine = (SKLine)element;
+                                    canvas.DrawLine(tempLine.FirstPoint, tempLine.SecondPoint, _paintHistory[element]);
+                                    break;
+
+                            }
+                        }
+                        _state = _previousState;
+                    }
                     break;
 
                 case State.redo:
+                    if (_canRedo == true && _historyToRedo.Count > 0)
+                    {
+                        var element = _historyToRedo.Pop();
+                        switch (element.GetType().Name)
+                        {
+                            case "SKPath":
+                                canvas.DrawPath((SKPath)element, _paintToRedo[element]);
+                                break;
+
+                            case "SKPoint":
+                                canvas.DrawPoint((SKPoint)element, _paintToRedo[element]);
+                                break;
+
+                            case "SKCircle":
+                                SKCircle tempCircle = (SKCircle)element;
+                                canvas.DrawCircle(tempCircle.Point, tempCircle.Radius, _paintToRedo[element]);
+                                break;
+
+                            case "SKRect":
+                                canvas.DrawRect((SKRect)element, _paintToRedo[element]);
+                                break;
+
+                            case "SKLine":
+                                SKLine tempLine = (SKLine)element;
+                                canvas.DrawLine(tempLine.FirstPoint, tempLine.SecondPoint, _paintToRedo[element]);
+                                break;
+                        }
+                        _history.Push(element);
+                        _paintHistory.Add(element, _paintToRedo[element]);
+                        _paintToRedo.Remove(element);
+
+                    }  
                     break;
             }
-            _nbOfAction++;
+            
 
 		}
 
         private void skElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _canRedo = false;
             var pixelPosition = e.GetPosition(sender as Canvas);
             var x = pixelPosition.X * DpiScale.DpiScaleX;
             var y = pixelPosition.Y * DpiScale.DpiScaleY;
@@ -186,6 +266,7 @@ namespace GarticPhone
         {
 			if (_isMouseDown)
 			{
+                _canRedo = false;
                 var pixelPosition = e.GetPosition(sender as Canvas);
                 var x = pixelPosition.X * DpiScale.DpiScaleX;
                 var y = pixelPosition.Y * DpiScale.DpiScaleY;
@@ -215,6 +296,7 @@ namespace GarticPhone
 
         private void skElement_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            _canRedo = false;
 			_isMouseDown = true;
 			var pixelPosition = e.GetPosition(sender as Canvas);
 			var x = pixelPosition.X * DpiScale.DpiScaleX;
@@ -253,6 +335,7 @@ namespace GarticPhone
 
         private void skElement_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            _canRedo = false;
 			_isMouseDown = false;
             var pixelPosition = e.GetPosition(sender as Canvas);
             var x = pixelPosition.X * DpiScale.DpiScaleX;
@@ -285,7 +368,7 @@ namespace GarticPhone
                     break;
 
                 case State.line:
-                    _secondSkPoint = new SKPoint((float)x - 250, (float)y - 150);
+                    _skLine = new SKLine(_skPoint.Value, new SKPoint((float)x - 250, (float)y - 150));
                     skElement.InvalidateVisual();
                     break;
 
@@ -460,6 +543,9 @@ namespace GarticPhone
 
         private void OnRestore(object sender, RoutedEventArgs e)
         {
+            _previousState = _state;
+            _state = State.redo;
+            skElement.InvalidateVisual();
         }
     }
 }
