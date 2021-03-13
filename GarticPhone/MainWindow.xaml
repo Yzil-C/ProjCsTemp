@@ -6,12 +6,12 @@
         xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
         xmlns:local="clr-namespace:GarticPhone"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="1600">
-    <Grid>
+        Title="MainWindow" Height="900" Width="1800">
+    <Grid Background="#606060">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="350"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="350"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="150"></RowDefinition>
@@ -20,188 +20,186 @@
         </Grid.RowDefinitions>
         
         <!--Top Label-->
-        <Label x:Name = "TextToDraw" Content="Text To Draw" Grid.Column="1" HorizontalAlignment="Left" Margin="35,0,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="1000" Height="100" FontFamily="Consolas" FontSize="28"/>
+        <Label Style="{StaticResource TextToDrawLabel}" x:Name = "TextToDraw" Content="Text To Draw"/>
         
         <!--PaintSurface-->
-        <skia:SKElement x:Name="skElement" PaintSurface="OnPaintSurface" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="skElement_MouseLeftButtonDown" MouseMove="skElement_MouseMove" MouseDown="skElement_MouseDown" MouseUp="skElement_MouseUp"/>
+        <skia:SKElement x:Name="skElement" PaintSurface="OnPaintSurface" Grid.Column="1" Grid.Row="1" MouseMove="skElement_MouseMove" MouseDown="skElement_MouseDown" MouseUp="skElement_MouseUp"/>
 
 
         <!--Button to change StrokeWidth-->
-        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="25,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth1_Button_Click">
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="25,0,0,0" Click="StrokeWidth1_Button_Click">
             <Button.Content>
-                <Ellipse Width="7" Height="7" Fill="Black"></Ellipse>
+                <Ellipse x:Name="StrokeWidthEllipse1" Width="7" Height="7" Fill="#f5deb3"></Ellipse>
             </Button.Content>
         </Button>
-        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="100,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth2_Button_Click">
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="100,0,0,0" Click="StrokeWidth2_Button_Click">
             <Button.Content>
-                <Ellipse Width="12" Height="12" Fill="Black"></Ellipse>
+                <Ellipse x:Name="StrokeWidthEllipse2" Width="12" Height="12" Fill="#000000"></Ellipse>
             </Button.Content>
         </Button>
-        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="175,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth3_Button_Click">
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="175,0,0,0" Click="StrokeWidth3_Button_Click">
             <Button.Content>
-                <Ellipse Width="17" Height="17" Fill="Black"></Ellipse>
+                <Ellipse x:Name="StrokeWidthEllipse3" Width="17" Height="17" Fill="#f5deb3"></Ellipse>
             </Button.Content>
         </Button>
-        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="250,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth4_Button_Click">
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="250,0,0,0" Click="StrokeWidth4_Button_Click">
             <Button.Content>
-                <Ellipse Width="22" Height="22" Fill="Black"></Ellipse>
+                <Ellipse x:Name="StrokeWidthEllipse4" Width="22" Height="22" Fill="#f5deb3"></Ellipse>
             </Button.Content>
         </Button>
-        <Button Background="White" BorderBrush="DarkSlateGray" Grid.Column="1" HorizontalAlignment="Left" Margin="325,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="45" Width="45" Click="StrokeWidth5_Button_Click">
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="325,0,0,0" Click="StrokeWidth5_Button_Click">
             <Button.Content>
-                <Ellipse Width="27" Height="27" Fill="Black"></Ellipse>
+                <Ellipse x:Name="StrokeWidthEllipse5" Width="27" Height="27" Fill="#f5deb3"></Ellipse>
             </Button.Content>
         </Button>
 
         <!--Button to change Color-->
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="BlackColor">
+        <Button Style="{StaticResource ColorButton}" Margin="55,10,0,0" Click="BlackColor">
             <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="Black"></Ellipse>
+                <Ellipse Fill="Black"></Ellipse>
             </Button.Content>
         </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="SlateGrayColor">
+        <Button Style="{StaticResource ColorButton}" Margin="140,10,0,0" Click="SlateGrayColor">
             <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#708090"></Ellipse>
+                <Ellipse Fill="#708090"></Ellipse>
             </Button.Content>
         </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="WhiteColor">
+        <Button Style="{StaticResource ColorButton}" Margin="225,10,0,0" Click="WhiteColor">
             <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#F2F2F2"></Ellipse>
-            </Button.Content>
-        </Button>
-
-
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,90,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="MediumOrchidColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#BA55D3"></Ellipse>
-            </Button.Content>
-        </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,90,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="DarkOrchid">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#9932CC"></Ellipse>
-            </Button.Content>
-        </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,90,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="DarkBlueColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#00008B"></Ellipse>
+                <Ellipse Fill="#F2F2F2"></Ellipse>
             </Button.Content>
         </Button>
 
 
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,170,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="MediumSlateBlueColor">
+        <Button Style="{StaticResource ColorButton}" Margin="55,90,0,0" Click="MediumOrchidColor">
             <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#7B68EE"></Ellipse>
+                <Ellipse Fill="#BA55D3"></Ellipse>
             </Button.Content>
         </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,170,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="LightSkyBlueColor">
+        <Button Style="{StaticResource ColorButton}" Margin="140,90,0,0" Click="DarkOrchid">
             <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#87CEFA"></Ellipse>
+                <Ellipse Fill="#9932CC"></Ellipse>
             </Button.Content>
         </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,170,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="YellowGreenColor">
+        <Button Style="{StaticResource ColorButton}" Margin="225,90,0,0" Click="DarkBlueColor">
             <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#9ACD32"></Ellipse>
-            </Button.Content>
-        </Button>
-
-
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,250,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="GreenColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#008000"></Ellipse>
-            </Button.Content>
-        </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,250,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="YellowColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#FFFF00"></Ellipse>
-            </Button.Content>
-        </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,250,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="OrangeColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#FFA500"></Ellipse>
-            </Button.Content>
-        </Button>
-
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,330,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="PinkColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#FFC0CB"></Ellipse>
-            </Button.Content>
-        </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,330,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="HotPinkColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#FF69B4"></Ellipse>
-            </Button.Content>
-        </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,330,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="RedColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#FF0000"></Ellipse>
-            </Button.Content>
-        </Button>
-
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="10,410,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="FireBrickColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#B22222"></Ellipse>
-            </Button.Content>
-        </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="95,410,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="AnthiqueWhiteColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#FAEBD7"></Ellipse>
-            </Button.Content>
-        </Button>
-        <Button Background="White" BorderBrush="White" Grid.Column="0" HorizontalAlignment="Left" Margin="180,410,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="60" Click="SaddleBrownColor">
-            <Button.Content>
-                <Ellipse Width="56" Height="56" Fill="#8B4513"></Ellipse>
+                <Ellipse Fill="#00008B"></Ellipse>
             </Button.Content>
         </Button>
 
 
-        <Button Grid.Column="0" HorizontalAlignment="Left" Margin="10,490,0,0" Grid.Row="1" VerticalAlignment="Top" Height="60" Width="230">
+        <Button Style="{StaticResource ColorButton}" Margin="55,170,0,0" Click="MediumSlateBlueColor">
             <Button.Content>
-                <Rectangle x:Name="CurrentColor" Width="226" Height="56" Fill="Black"></Rectangle>
+                <Ellipse Fill="#7B68EE"></Ellipse>
             </Button.Content>
         </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,170,0,0" Click="LightSkyBlueColor">
+            <Button.Content>
+                <Ellipse Fill="#87CEFA"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,170,0,0" Click="YellowGreenColor">
+            <Button.Content>
+                <Ellipse Fill="#9ACD32"></Ellipse>
+            </Button.Content>
+        </Button>
+
+
+        <Button Style="{StaticResource ColorButton}" Margin="55,250,0,0" Click="GreenColor">
+            <Button.Content>
+                <Ellipse Fill="#008000"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,250,0,0" Click="YellowColor">
+            <Button.Content>
+                <Ellipse Fill="#FFFF00"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,250,0,0" Click="OrangeColor">
+            <Button.Content>
+                <Ellipse Fill="#FFA500"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <Button Style="{StaticResource ColorButton}" Margin="55,330,0,0" Click="PinkColor">
+            <Button.Content>
+                <Ellipse Fill="#FFC0CB"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,330,0,0" Click="HotPinkColor">
+            <Button.Content>
+                <Ellipse Fill="#FF69B4"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,330,0,0" Click="RedColor">
+            <Button.Content>
+                <Ellipse Fill="#FF0000"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <Button Style="{StaticResource ColorButton}" Margin="55,410,0,0" Click="FireBrickColor">
+            <Button.Content>
+                <Ellipse Fill="#B22222"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,410,0,0" Click="AnthiqueWhiteColor">
+            <Button.Content>
+                <Ellipse Fill="#FAEBD7"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,410,0,0" Click="SaddleBrownColor">
+            <Button.Content>
+                <Ellipse Fill="#8B4513"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <Label Style="{StaticResource currentColorLabel}" Margin="53,490,0,0">
+            <Label.Content>
+                <Rectangle x:Name="CurrentColor" Width="235" Height="70" Fill="Black" Margin="-5,-5,-5,-5" ></Rectangle>
+            </Label.Content>
+        </Label>
 
 
 
         <!--Button to modify Draw-->
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnPen">
-            <Image Source="Resource/pen.png" Width="88" Height="88"></Image>
+        <Button x:Name="penState" Style="{StaticResource ModifyDrawButton}" Margin="0,10,190,0" Click="OnPen" Background="#303030">
+            <Image Source="Resource/pen.png"/>
         </Button>
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnRubber">
-            <Image Source="Resource/rubber.png" Width="88" Height="88"/>
+        <Button x:Name="rubberState" Style="{StaticResource ModifyDrawButton}" Margin="0,10,65,0" Click="OnRubber"  Background="#505050">
+            <Image Source="Resource/rubber.png"/>
+        </Button>
+
+
+        <Button x:Name="squareState" Style="{StaticResource ModifyDrawButton}" Margin="0,120,190,0" Click="OnSquare"  Background="#505050">
+            <Image Source="Resource/square.png"/>
+        </Button>
+        <Button x:Name="circleState" Style="{StaticResource ModifyDrawButton}" Margin="0,120,65,0" Click="OnCircle"  Background="#505050">
+            <Image Source="Resource/circle.png"/>
         </Button>
 
 
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnSquare">
-            <Image Source="Resource/square.png" Width="88" Height="88"/>
+        <Button x:Name="squareFilledState" Style="{StaticResource ModifyDrawButton}" Margin="0,230,190,0" Click="OnSquareFilled" Background="#505050">
+            <Image Source="Resource/squareFilled.png"/>
         </Button>
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnCircle">
-            <Image Source="Resource/circle.png" Width="88" Height="88"/>
-        </Button>
-
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnSquareFilled">
-            <!--<Button.Background>
-                <ImageBrush ImageSource="/GarticPhone;component/Pictures/squareFilled.png"/>
-            </Button.Background>-->
-            <Image Source="Resource/squareFilled.png" Width="88" Height="88"/>
-        </Button>
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,230,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnCircleFilled">
-            <Image Source="/GarticPhone;component/Resource/circleFilled.png" Width="88" Height="88"/>
+        <Button x:Name="circleFilledState" Style="{StaticResource ModifyDrawButton}" Margin="0,230,65,0" Click="OnCircleFilled" Background="#505050">
+            <Image Source="Resource/circleFilled.png"/>
         </Button>
 
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnLine">
-            <Image Source="Resource/line.png" Width="88" Height="88"/>
+
+        <Button x:Name="lineState"  Style="{StaticResource ModifyDrawButton}" Margin="0,340,190,0" Click="OnLine" Background="#505050">
+            <Image Source="Resource/line.png"/>
         </Button>
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,340,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnFill">
-            <Image Source="Resource/fill.png" Width="88" Height="88"/>
+        <Button  x:Name="fillState"  Style="{StaticResource ModifyDrawButton}" Margin="0,340,65,0" Click="OnFill" Background="#505050">
+            <Image Source="Resource/fill.png"/>
         </Button>
 
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="20,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnCancel">
-            <Image Source="Resource/goBack.png" Width="88" Height="88"/>
+
+        <Button Style="{StaticResource ModifyDrawButton}" Margin="0,450,190,0" Click="OnCancel" Background="#505050">
+            <Image Source="Resource/goBack.png"/>
         </Button>
-        <Button Grid.Column="2" HorizontalAlignment="Left" Margin="140,450,0,0" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="90" Click="OnRestore">
-            <Image Source="Resource/goFront.png" Width="88" Height="88"/>
+        <Button Style="{StaticResource ModifyDrawButton}" Margin="0,450,65,0" Click="OnRestore" Background="#505050">
+            <Image Source="Resource/goFront.png"/>
         </Button>
-        
 
     </Grid>
 </Window>

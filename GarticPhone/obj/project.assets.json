@@ -220,11 +220,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\coren\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj",
+      "projectUniqueName": "E:\\B2\\Projets\\GarticPhone\\GarticPhone.csproj",
       "projectName": "GarticPhone",
-      "projectPath": "C:\\Users\\coren\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj",
+      "projectPath": "E:\\B2\\Projets\\GarticPhone\\GarticPhone.csproj",
       "packagesPath": "C:\\Users\\coren\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\coren\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\obj\\",
+      "outputPath": "E:\\B2\\Projets\\GarticPhone\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"

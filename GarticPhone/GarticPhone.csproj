@@ -13,7 +13,6 @@
     <None Remove="Resource\goBack.png" />
     <None Remove="Resource\goFront.png" />
     <None Remove="Resource\line.png" />
-    <None Remove="Resource\logo.png" />
     <None Remove="Resource\pen.png" />
     <None Remove="Resource\rubber.png" />
     <None Remove="Resource\square.png" />
@@ -31,7 +30,6 @@
     <Resource Include="Resource\goBack.png" />
     <Resource Include="Resource\goFront.png" />
     <Resource Include="Resource\line.png" />
-    <Resource Include="Resource\logo.png" />
     <Resource Include="Resource\pen.png" />
     <Resource Include="Resource\rubber.png" />
     <Resource Include="Resource\square.png" />

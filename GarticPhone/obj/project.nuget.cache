@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "n7RQYH+bljGmkhGYGL0qJrSvyqCUML9EFYwoIJoln0+K5s46kj3cX4fMMDeb9GyW5WUOfPc2OQ1aVcQoc9XHOg==",
+  "dgSpecHash": "zehAYWD0pPGPdCkCbmveowZorSuPEbcAWA13szdQMZs7GYZgC+tR2zLh6QuthtUuy4sQGe4HLdbM7ZhfVmp2cA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\coren\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj",
+  "projectFilePath": "E:\\B2\\Projets\\GarticPhone\\GarticPhone.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\coren\\.nuget\\packages\\skiasharp\\2.80.2\\skiasharp.2.80.2.nupkg.sha512",
     "C:\\Users\\coren\\.nuget\\packages\\skiasharp.views.desktop.common\\2.80.2\\skiasharp.views.desktop.common.2.80.2.nupkg.sha512",

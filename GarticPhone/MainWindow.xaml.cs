@@ -1,20 +1,15 @@
-﻿using GarticPhone.Models;
+﻿
+using GarticPhone.ModelsToDraw;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GarticPhone
 {
@@ -31,32 +26,24 @@ namespace GarticPhone
         circleFilled,
         line,
         fill,
-        undo,
-        redo,
-        firstRound
     }
     public partial class MainWindow : Window
     {
-        private Stack<Object> _history = new Stack<Object>();
-        private Stack<Object> _historyToRedo = new Stack<Object>();
-        private Dictionary<Object,SKPaint> _paintHistory = new Dictionary<Object,SKPaint>();
-        private Dictionary<Object, SKPaint> _paintToRedo = new Dictionary<Object, SKPaint>();
+        private Stack<YFigure> _history = new Stack<YFigure>();
+        private Stack<YFigure> _redoStack = new Stack<YFigure>();
 
-		private SKPath _skPath = new SKPath();
-        private List<SKPath> _listOfSkPaths;
-		private SKColor _skColor;
-		private SKPoint? _skPoint;
-        private SKLine _skLine;
-        private SKRect _skRect;
-        private SKCircle _skCircle;
-        private SKPaintStyle _isFilled = SKPaintStyle.Stroke;
+        private YPath _yPath;
+        private YFiller _yFiller;
+		private SKPoint _skPoint;
+        private Dictionary<int, System.Windows.Shapes.Ellipse> _strokeWidthEllipseInf = new Dictionary<int, System.Windows.Shapes.Ellipse>();
+        private Dictionary<State, Button> _buttonToDrawInf = new Dictionary<State, Button>();
+
         private int _strokeWidth = 5;
 
 		private bool _isMouseDown = false;
         private bool _canRedo = false;
 
-        private State _state = State.firstRound;
-        private State _previousState = State.pen;
+        private State _state = State.pen;
 
 		public Window Window => Application.Current.MainWindow;
 		public DpiScale DpiScale => VisualTreeHelper.GetDpi(Window);
@@ -65,283 +52,143 @@ namespace GarticPhone
 		public MainWindow()
 		{
 			InitializeComponent();
-		}
 
-		private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+            //Initialize strokeWidth to fill Elipse correctly
+            _strokeWidthEllipseInf.Add(3, StrokeWidthEllipse1);
+            _strokeWidthEllipseInf.Add(5, StrokeWidthEllipse2);
+            _strokeWidthEllipseInf.Add(7, StrokeWidthEllipse3);
+            _strokeWidthEllipseInf.Add(10, StrokeWidthEllipse4);
+            _strokeWidthEllipseInf.Add(14, StrokeWidthEllipse5);
+
+            //Initialize buttonToDraw to fill background correctly;
+            _buttonToDrawInf.Add(State.pen, penState);
+            _buttonToDrawInf.Add(State.rubber, rubberState);
+            _buttonToDrawInf.Add(State.square, squareState);
+            _buttonToDrawInf.Add(State.circle, circleState);
+            _buttonToDrawInf.Add(State.squareFilled, squareFilledState);
+            _buttonToDrawInf.Add(State.circleFilled, circleFilledState);
+            _buttonToDrawInf.Add(State.line, lineState);
+            _buttonToDrawInf.Add(State.fill, fillState);
+        }
+        private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
 		{
 			var surface = e.Surface;
+            var info = e.Info;
 			var canvas = surface.Canvas;
 
-            //Verifications
-            if (_state == State.squareFilled || _state == State.circleFilled || _state == State.fill)
+            if (_state == State.fill && !_canRedo)
             {
-                _isFilled = SKPaintStyle.Fill;
-            }
-            else
-            {
-                _isFilled = SKPaintStyle.Stroke;
-            }
-            if(_state == State.rubber)
-            {
-                _skColor = new SKColor(255, 255, 255);
-            }
-            else
-            {
-                byte r = ((Color)CurrentColor.Fill.GetValue(SolidColorBrush.ColorProperty)).R;
-                byte g = ((Color)CurrentColor.Fill.GetValue(SolidColorBrush.ColorProperty)).G;
-                byte b = ((Color)CurrentColor.Fill.GetValue(SolidColorBrush.ColorProperty)).B;
-                _skColor = new SKColor(r, g, b);
-            }
-
-			var paint = new SKPaint()
-			{
-				Style = _isFilled,
-				Color = _skColor,
-				StrokeWidth = _strokeWidth
-			};
-
-            switch (_state)
-            {
-                case State.pen:
-                    canvas.DrawPath(_skPath, paint);
-                    break;
-
-                case State.rubber:
-                    canvas.DrawPath(_skPath, paint);
-                    break;
-
-                case State.square:
-                    _paintHistory.Add(_skRect,paint);
-                    _history.Push(_skRect);
-                    canvas.DrawRect(_skRect, paint);
-                    break;
-
-                case State.circle:
-                    _paintHistory.Add(_skCircle,paint);
-                    _history.Push(_skCircle);
-                    canvas.DrawCircle(_skCircle.Point, _skCircle.Radius, paint);
-                    break;
-
-                case State.squareFilled:
-                    _paintHistory.Add(_skRect,paint);
-                    _history.Push(_skRect);
-                    canvas.DrawRect(_skRect, paint);
-                    break;
-
-                case State.circleFilled:
-                    _paintHistory.Add(_skCircle,paint);
-                    _history.Push(_skCircle);
-                    canvas.DrawCircle(_skCircle.Point, _skCircle.Radius, paint);
-                    break;
-
-                case State.line:
-                    _paintHistory.Add(_skLine,paint);
-                    _history.Push(_skLine);
-                    canvas.DrawLine(_skLine.FirstPoint, _skLine.SecondPoint, paint);
-                    break;
-
-                case State.fill:
-                    canvas.DrawPath(_skPath, paint);
-                    break;
-
-                case State.undo:
-                    if(_history.Count > 0)
-                    {
-                        _canRedo = true;
-                        canvas.Clear();
-                        _paintToRedo.Add(_history.Peek(), _paintHistory[_history.Peek()]);
-                        _paintHistory.Remove(_history.Peek());
-                        _historyToRedo.Push(_history.Pop());
-
-                        foreach (var element in _history)
-                        {
-                            switch (element.GetType().Name)
-                            {
-                                default:
-                                    var tempPaths = (List<SKPath>)element;
-                                    foreach(var path in tempPaths)
-                                    {
-                                        canvas.DrawPath(path, _paintHistory[element]);
-                                    }
-                                    break;
-
-                                case "SKPoint":
-                                    canvas.DrawPoint((SKPoint)element, _paintHistory[element]);
-                                    break;
-
-                                case "SKCircle":
-                                    SKCircle tempCircle = (SKCircle)element;
-                                    canvas.DrawCircle(tempCircle.Point, tempCircle.Radius, _paintHistory[element]);
-                                    break;
-
-                                case "SKRect":
-                                    canvas.DrawRect((SKRect)element, _paintHistory[element]);
-                                    break;
-
-                                case "SKLine":
-                                    SKLine tempLine = (SKLine)element;
-                                    canvas.DrawLine(tempLine.FirstPoint, tempLine.SecondPoint, _paintHistory[element]);
-                                    break;
-
-                            }
-                        }
-                        _state = _previousState;
-                    }
-                    break;
-
-                case State.redo:
-                    if (_canRedo == true && _historyToRedo.Count > 0)
-                    {
-                        var element = _historyToRedo.Pop();
-                        switch (element.GetType().Name)
-                        {
-                            case "SKPath":
-                                canvas.DrawPath((SKPath)element, _paintToRedo[element]);
-                                break;
-
-                            case "SKPoint":
-                                canvas.DrawPoint((SKPoint)element, _paintToRedo[element]);
-                                break;
-
-                            case "SKCircle":
-                                SKCircle tempCircle = (SKCircle)element;
-                                canvas.DrawCircle(tempCircle.Point, tempCircle.Radius, _paintToRedo[element]);
-                                break;
-
-                            case "SKRect":
-                                canvas.DrawRect((SKRect)element, _paintToRedo[element]);
-                                break;
-
-                            case "SKLine":
-                                SKLine tempLine = (SKLine)element;
-                                canvas.DrawLine(tempLine.FirstPoint, tempLine.SecondPoint, _paintToRedo[element]);
-                                break;
-                        }
-                        _history.Push(element);
-                        _paintHistory.Add(element, _paintToRedo[element]);
-                        _paintToRedo.Remove(element);
-
-                    }  
-                    break;
-
-                case State.firstRound:
-                    _state = State.pen;
-                    break;
+                if (_yFiller.FillElement(surface, info, GetCurrentColor(), (int)Math.Round(_yFiller.BasePoint.X), (int)Math.Round(_yFiller.BasePoint.Y)))
+                    _history.Push(_yFiller);
             }
             
-
+            canvas.Clear();
+            canvas.DrawRect(new SKRect(0, 0, info.Width, info.Height), new SKPaint
+            {
+                Style = SKPaintStyle.Fill,
+                Color = new SKColor(255, 255, 255)
+            });
+            foreach (var yFigure in _history.Reverse())
+            {   
+                yFigure.Draw(canvas);
+            }
 		}
 
-        private void skElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private SKColor GetCurrentColor()
         {
-            
-            _canRedo = false;
-            var pixelPosition = e.GetPosition(sender as Canvas);
-            var x = pixelPosition.X * DpiScale.DpiScaleX;
-            var y = pixelPosition.Y * DpiScale.DpiScaleY;
-            switch (_state)
-            {
-                default:
-                    _skPath.MoveTo(new SKPoint((float)x - 250, (float)y - 150));
-                    _listOfSkPaths = new List<SKPath>();
-                    _listOfSkPaths.Add(_skPath);
-                    _skPath.LineTo(new SKPoint((float)x - 250 + _strokeWidth, (float)y - 150 + _strokeWidth));
-                    skElement.InvalidateVisual();
-                    break;
-                case State.square:
-                    break;
-                case State.squareFilled:
-                    break;
-                case State.circle:
-                    break;
-                case State.circleFilled:
-                    break;
-                case State.line:
-                    break;
-                case State.fill:
-                    _skPath = new SKPath
-                    {
-                        FillType = SKPathFillType.InverseWinding
-                    };
-                    _skPath.MoveTo(new SKPoint((float)x - 250, (float)y - 150));
-                    //_skPath.LineTo(new SKPoint((float)x - 250, (float)y - 150));
-                    skElement.InvalidateVisual();
-                    break;
-            }
-            
+            byte r = ((Color)CurrentColor.Fill.GetValue(SolidColorBrush.ColorProperty)).R;
+            byte g = ((Color)CurrentColor.Fill.GetValue(SolidColorBrush.ColorProperty)).G;
+            byte b = ((Color)CurrentColor.Fill.GetValue(SolidColorBrush.ColorProperty)).B;
+            return new SKColor(r, g, b);
         }
 
         private void skElement_MouseDown(object sender, MouseButtonEventArgs e)
         {
             _canRedo = false;
+            _redoStack = new Stack<YFigure>();
             _isMouseDown = true;
             var pixelPosition = e.GetPosition(sender as Canvas);
-            var x = pixelPosition.X * DpiScale.DpiScaleX;
-            var y = pixelPosition.Y * DpiScale.DpiScaleY;
-            switch (_state)
+            var x = (float)(pixelPosition.X * DpiScale.DpiScaleX - 350 * DpiScale.DpiScaleX);
+            var y = (float)(pixelPosition.Y * DpiScale.DpiScaleY - 150 * DpiScale.DpiScaleY);
+
+            _skPoint = new SKPoint(x, y);
+
+            var color = GetCurrentColor();
+
+            if(_state == State.fill)
             {
-                default:
-                    var skPoint = new SKPoint((float)x - 250, (float)y - 150);
-                    _skPath = new SKPath();
-                    _skPath.MoveTo(skPoint);
-                    _listOfSkPaths = new List<SKPath>();
-                    _listOfSkPaths.Add(_skPath);
-                    break;
-                case State.square:
-                    _skPoint = new SKPoint((float)x - 250, (float)y - 150);
-                    break;
-
-                case State.circle:
-                    _skPoint = new SKPoint((float)x - 250, (float)y - 150);
-                    break;
-
-                case State.squareFilled:
-                    _skPoint = new SKPoint((float)x - 250, (float)y - 150);
-                    break;
-
-                case State.circleFilled:
-                    _skPoint = new SKPoint((float)x - 250, (float)y - 150);
-                    break;
-
-                case State.line:
-                    _skPoint = new SKPoint((float)x - 250, (float)y - 150);
-                    break;
-
-                case State.fill:
-                    break;
+                _yFiller = new YFiller(_skPoint, color);
             }
+            else
+            {
+                if (_state == State.rubber)
+                    color = new SKColor(255, 255, 255);
+                _history.Push(new YPoint(_skPoint, color, _strokeWidth));
+                _yPath = new YPath(new SKPath(), color, _strokeWidth);
+                _yPath.DrawingPath.MoveTo(_skPoint);
+            }
+            skElement.InvalidateVisual();    
         }
 
         private void skElement_MouseMove(object sender, MouseEventArgs e)
         {
-			if (_isMouseDown)
+            var pixelPosition = e.GetPosition(sender as Canvas);
+            var x = (float)(pixelPosition.X * DpiScale.DpiScaleX - 350 * DpiScale.DpiScaleX);
+            var y = (float)(pixelPosition.Y * DpiScale.DpiScaleY - 150 * DpiScale.DpiScaleY);
+
+            /*if(!(x < _winInf.Width && x > 0 && y < _winInf.Height && y > 0))
+            {
+                _isMouseDown = false;
+            }*/
+            if (_isMouseDown)
 			{
-                _canRedo = false;
-                var pixelPosition = e.GetPosition(sender as Canvas);
-                var x = pixelPosition.X * DpiScale.DpiScaleX;
-                var y = pixelPosition.Y * DpiScale.DpiScaleY;
+                var skPoint = new SKPoint(x,y);
+
+                var color = GetCurrentColor();
+
+                YFigure currentFigure = null;
+
                 switch (_state)
                 {
-                    default:
-                        var skPoint = new SKPoint((float)x - 250, (float)y - 150);
-                        _skPath.LineTo(skPoint);
-                        _listOfSkPaths.Add(_skPath);
-                        skElement.InvalidateVisual();
+                    case State.pen:
+                        _yPath.DrawingPath.LineTo(skPoint);
+                        currentFigure = _yPath;
                         break;
-                    case State.square: 
+
+                    case State.rubber:
+                        _yPath.DrawingPath.LineTo(skPoint);
+                        currentFigure = _yPath;
                         break;
+
+                    case State.square:
+                        currentFigure = new YRect(_skPoint.X, _skPoint.Y, x  - _skPoint.X, y - _skPoint.Y, color, _strokeWidth, SKPaintStyle.Stroke);
+                        break;
+
                     case State.circle:
+                        float radius = (float)Math.Sqrt(Math.Pow(x - _skPoint.X, 2) + Math.Pow(y - _skPoint.Y, 2));
+                        currentFigure = new YCircle(_skPoint, radius, color, _strokeWidth, SKPaintStyle.Stroke);
                         break;
+
                     case State.squareFilled:
+                        currentFigure = new YRect(_skPoint.X, _skPoint.Y, x - _skPoint.X, y - _skPoint.Y, color, _strokeWidth, SKPaintStyle.Fill);
                         break;
+
                     case State.circleFilled:
+                        float radiusFilled = (float)Math.Sqrt(Math.Pow(x - _skPoint.X, 2) + Math.Pow(y - _skPoint.Y, 2));
+                        currentFigure = new YCircle(_skPoint, radiusFilled, color, _strokeWidth, SKPaintStyle.Fill);
                         break;
+
                     case State.line:
-                        break;
-                    case State.fill:
+                        currentFigure = new YLine(_skPoint, new SKPoint(x, y), color, _strokeWidth);
                         break;
                 }
-				
+
+                if(currentFigure!=null)
+                {
+                    _history.Pop();
+                    _history.Push(currentFigure);
+                    skElement.InvalidateVisual();
+                }
 			}
 		}
 
@@ -349,80 +196,42 @@ namespace GarticPhone
 
         private void skElement_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            _canRedo = false;
-			_isMouseDown = false;
-            var pixelPosition = e.GetPosition(sender as Canvas);
-            var x = pixelPosition.X * DpiScale.DpiScaleX;
-            var y = pixelPosition.Y * DpiScale.DpiScaleY;
-            switch (_state)
-            {
-                default:
-                    var paint = new SKPaint()
-                    {
-                        Style = _isFilled,
-                        Color = _skColor,
-                        StrokeWidth = _strokeWidth
-                    };
-                    _history.Push(_listOfSkPaths);
-                    _paintHistory.Add(_listOfSkPaths, paint);
-                    _listOfSkPaths = null;
-                    break;
-                case State.square:
-                    _skRect = new SKRect((float)_skPoint.Value.X, (float)_skPoint.Value.Y, (float)(x - 250), (float)(y - 150));
-                    skElement.InvalidateVisual();
-                    break;
-
-                case State.circle:
-                    float radius = (float)Math.Sqrt(Math.Pow((x - 250) - _skPoint.Value.X, 2) + Math.Pow((y - 150) - _skPoint.Value.Y, 2));
-                    _skCircle = new SKCircle(_skPoint.Value, radius);
-                    skElement.InvalidateVisual();
-                    break;
-
-                case State.squareFilled:
-                    _skRect = new SKRect((float)_skPoint.Value.X, (float)_skPoint.Value.Y, (float)(x - 250), (float)(y - 150));
-                    skElement.InvalidateVisual();
-                    break;
-
-                case State.circleFilled:
-                    float radiusFilled = (float)Math.Sqrt(Math.Pow((x - 250) - _skPoint.Value.X, 2) + Math.Pow((y - 150) - _skPoint.Value.Y, 2));
-                    _skCircle = new SKCircle(_skPoint.Value,radiusFilled);
-                    skElement.InvalidateVisual();
-                    break;
-
-                case State.line:
-                    _skLine = new SKLine(_skPoint.Value, new SKPoint((float)x - 250, (float)y - 150));
-                    skElement.InvalidateVisual();
-                    break;
-
-                case State.fill:
-                    break;
-            }
-
+            _isMouseDown = false;
         }
 
         private void StrokeWidth1_Button_Click(object sender, RoutedEventArgs e)
         {
-			_strokeWidth = 3;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(245, 222, 179));
+            _strokeWidth = 3;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(0,0,0));
         }
 
         private void StrokeWidth2_Button_Click(object sender, RoutedEventArgs e)
         {
-			_strokeWidth = 5;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(245, 222, 179));
+            _strokeWidth = 5;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
 
         private void StrokeWidth3_Button_Click(object sender, RoutedEventArgs e)
         {
-			_strokeWidth = 7;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(245, 222, 179));
+            _strokeWidth = 7;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
 
         private void StrokeWidth4_Button_Click(object sender, RoutedEventArgs e)
         {
-			_strokeWidth = 10;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(245, 222, 179));
+            _strokeWidth = 10;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
 
         private void StrokeWidth5_Button_Click(object sender, RoutedEventArgs e)
         {
-			_strokeWidth = 14;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(245, 222, 179));
+            _strokeWidth = 14;
+            _strokeWidthEllipseInf[_strokeWidth].Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
 
         private void BlackColor(object sender, RoutedEventArgs e)
@@ -517,57 +326,78 @@ namespace GarticPhone
 
         private void OnPen(object sender, RoutedEventArgs e)
         {
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(80, 80, 80));
             _state = State.pen;
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
         }
 
         private void OnRubber(object sender, RoutedEventArgs e)
         {
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(80, 80, 80));
             _state = State.rubber;
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
         }
 
         private void OnSquare(object sender, RoutedEventArgs e)
         {
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(80, 80, 80));
             _state = State.square;
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
         }
 
         private void OnCircle(object sender, RoutedEventArgs e)
         {
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(80, 80, 80));
             _state = State.circle;
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
         }
 
         private void OnSquareFilled(object sender, RoutedEventArgs e)
         {
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(80, 80, 80));
             _state = State.squareFilled;
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
         }
 
         private void OnCircleFilled(object sender, RoutedEventArgs e)
         {
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(80, 80, 80));
             _state = State.circleFilled;
-            
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
+
         }
 
         private void OnLine(object sender, RoutedEventArgs e)
         {
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(80, 80, 80));
             _state = State.line;
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
         }
 
         private void OnFill(object sender, RoutedEventArgs e)
         {
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(80, 80, 80));
             _state = State.fill;
+            _buttonToDrawInf[_state].Background = new SolidColorBrush(Color.FromRgb(48, 48, 48));
         }
 
         private void OnCancel(object sender, RoutedEventArgs e)
         {
-            _previousState = _state;
-            _state = State.undo;
-            skElement.InvalidateVisual();
+            if(_history.Count > 0)
+            {
+                _canRedo = true;
+                _redoStack.Push(_history.Pop());
+                skElement.InvalidateVisual();
+            }
         }
 
         private void OnRestore(object sender, RoutedEventArgs e)
         {
-            _previousState = _state;
-            _state = State.redo;
-            skElement.InvalidateVisual();
+            if(_canRedo && _redoStack.Count > 0)
+            {
+                _history.Push(_redoStack.Pop());
+                skElement.InvalidateVisual();
+            } 
         }
     }
 }
