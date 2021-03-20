@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\GarticPhone.csproj": {}
+    "C:\\Users\\Corentin\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj": {}
   },
   "projects": {
-    "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\GarticPhone.csproj": {
+    "C:\\Users\\Corentin\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\GarticPhone.csproj",
+        "projectUniqueName": "C:\\Users\\Corentin\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj",
         "projectName": "GarticPhone",
-        "projectPath": "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\GarticPhone.csproj",
+        "projectPath": "C:\\Users\\Corentin\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj",
         "packagesPath": "C:\\Users\\Corentin\\.nuget\\packages\\",
-        "outputPath": "D:\\B2\\Projets\\GarticPhone\\GarticPhone\\obj\\",
+        "outputPath": "C:\\Users\\Corentin\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Corentin\\AppData\\Roaming\\NuGet\\NuGet.Config",
