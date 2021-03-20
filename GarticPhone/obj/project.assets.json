@@ -219,11 +219,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Corentin\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj",
+      "projectUniqueName": "D:\\B2\\Projets\\GarticPhone\\GarticPhone.csproj",
       "projectName": "GarticPhone",
-      "projectPath": "C:\\Users\\Corentin\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\GarticPhone.csproj",
+      "projectPath": "D:\\B2\\Projets\\GarticPhone\\GarticPhone.csproj",
       "packagesPath": "C:\\Users\\Corentin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Corentin\\Documents\\GitHub\\ProjCsTemp\\GarticPhone\\obj\\",
+      "outputPath": "D:\\B2\\Projets\\GarticPhone\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Corentin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -275,7 +275,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.104\\RuntimeIdentifierGraph.json"
       }
     }
   }

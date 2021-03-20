@@ -7,17 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resource\circle.png" />
-    <None Remove="Resource\circleFilled.png" />
-    <None Remove="Resource\Fill.png" />
-    <None Remove="Resource\goBack.png" />
-    <None Remove="Resource\goFront.png" />
-    <None Remove="Resource\line.png" />
-    <None Remove="Resource\logo.png" />
-    <None Remove="Resource\pen.png" />
-    <None Remove="Resource\rubber.png" />
-    <None Remove="Resource\square.png" />
-    <None Remove="Resource\squareFilled.png" />
+    <None Remove="GarticWindows\PreRoom.xaml.cs~RFe1022c.TMP" />
+    <None Remove="GarticWindows\PreRoom.xaml~RF4a1852.TMP" />
+    <None Remove="GarticWindows\Resource\nextIcon.png" />
+    <None Remove="GarticWindows\Resource\previousIcon.png" />
+    <None Remove="GarticWindows\Resource\UserIcons\icon1.png" />
+    <None Remove="GarticWindows\Resource\UserIcons\icon2.png" />
+    <None Remove="GarticWindows\Resource\UserIcons\icon3.png" />
+    <None Remove="MainWindow.xaml~RF3cdf02.TMP" />
+    <None Remove="GarticWindows\Resource\circle.png" />
+    <None Remove="GarticWindows\Resource\circleFilled.png" />
+    <None Remove="GarticWindows\Resource\endIcon.png" />
+    <None Remove="GarticWindows\Resource\Fill.png" />
+    <None Remove="GarticWindows\Resource\goBack.png" />
+    <None Remove="GarticWindows\Resource\goFront.png" />
+    <None Remove="GarticWindows\Resource\line.png" />
+    <None Remove="GarticWindows\Resource\pen.png" />
+    <None Remove="GarticWindows\Resource\rubber.png" />
+    <None Remove="GarticWindows\Resource\square.png" />
+    <None Remove="GarticWindows\Resource\squareFilled.png" />
+    <None Remove="ViewModels\MainViewModel.cs~RF23d7471.TMP" />
+    <None Remove="ViewModels\MainViewModel.cs~RF250b3ef.TMP" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,17 +35,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resource\circle.png" />
-    <Resource Include="Resource\circleFilled.png" />
-    <Resource Include="Resource\Fill.png" />
-    <Resource Include="Resource\goBack.png" />
-    <Resource Include="Resource\goFront.png" />
-    <Resource Include="Resource\line.png" />
-    <Resource Include="Resource\logo.png" />
-    <Resource Include="Resource\pen.png" />
-    <Resource Include="Resource\rubber.png" />
-    <Resource Include="Resource\square.png" />
-    <Resource Include="Resource\squareFilled.png" />
+    <Resource Include="GarticWindows\Resource\circle.png" />
+    <Resource Include="GarticWindows\Resource\circleFilled.png" />
+    <Resource Include="GarticWindows\Resource\endIcon.png" />
+    <Resource Include="GarticWindows\Resource\Fill.png" />
+    <Resource Include="GarticWindows\Resource\goBack.png" />
+    <Resource Include="GarticWindows\Resource\goFront.png" />
+    <Resource Include="GarticWindows\Resource\line.png" />
+    <Resource Include="GarticWindows\Resource\nextIcon.png" />
+    <Resource Include="GarticWindows\Resource\pen.png" />
+    <Resource Include="GarticWindows\Resource\previousIcon.png" />
+    <Resource Include="GarticWindows\Resource\rubber.png" />
+    <Resource Include="GarticWindows\Resource\square.png" />
+    <Resource Include="GarticWindows\Resource\squareFilled.png" />
+    <Resource Include="GarticWindows\Resource\UserIcons\icon1.png" />
+    <Resource Include="GarticWindows\Resource\UserIcons\icon2.png" />
+    <Resource Include="GarticWindows\Resource\UserIcons\icon3.png" />
   </ItemGroup>
 
 </Project>

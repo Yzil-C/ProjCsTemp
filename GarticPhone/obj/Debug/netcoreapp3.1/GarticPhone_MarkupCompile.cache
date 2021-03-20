@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\B2\Projets\GarticPhone\GarticPhone\obj\Debug\netcoreapp3.1\
+D:\B2\Projets\GarticPhone\obj\Debug\netcoreapp3.1\
 GarticPhone
 none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
-D:\B2\Projets\GarticPhone\GarticPhone\App.xaml
-11151548125
+D:\B2\Projets\GarticPhone\App.xaml
+9-242458682
 
-3-917710711
-195-1883349572
-MainWindow.xaml;
+25-534581192
+195-1192165548
+GarticWindows\FirstTextWindow.xaml;GarticWindows\GuessDrawWindow.xaml;GarticWindows\PaintWindow.xaml;GarticWindows\PreRoom.xaml;GarticWindows\Room.xaml;MainWindow.xaml;Utilities\RoundControl.xaml;Utilities\SenderControl.xaml;Utilities\TimerControl.xaml;
 
 False
 
