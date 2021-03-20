@@ -1,0 +1,208 @@
+﻿<UserControl x:Class="GarticPhone.GarticWindows.PaintWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GarticPhone.GarticWindows"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1800">
+    <Grid Background="#606060" MouseMove="skElement_MouseMove"  MouseUp="skElement_MouseUp">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="350"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="150"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--Top Label-->
+        <Label Style="{StaticResource TextToDrawLabel}" x:Name = "TextToDraw" Content="Text To Draw"/>
+
+        <!--PaintSurface-->
+        <skia:SKElement x:Name="skElement" PaintSurface="OnPaintSurface" Grid.Column="1" Grid.Row="1" MouseDown="skElement_MouseDown"/>
+
+
+        <!--Button to change StrokeWidth-->
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="25,0,0,0" Click="StrokeWidth1_Button_Click">
+            <Button.Content>
+                <Ellipse x:Name="StrokeWidthEllipse1" Width="7" Height="7" Fill="#f5deb3"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="100,0,0,0" Click="StrokeWidth2_Button_Click">
+            <Button.Content>
+                <Ellipse x:Name="StrokeWidthEllipse2" Width="12" Height="12" Fill="#000000"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="175,0,0,0" Click="StrokeWidth3_Button_Click">
+            <Button.Content>
+                <Ellipse x:Name="StrokeWidthEllipse3" Width="17" Height="17" Fill="#f5deb3"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="250,0,0,0" Click="StrokeWidth4_Button_Click">
+            <Button.Content>
+                <Ellipse x:Name="StrokeWidthEllipse4" Width="22" Height="22" Fill="#f5deb3"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource StrokeWidthButton}" Margin="325,0,0,0" Click="StrokeWidth5_Button_Click">
+            <Button.Content>
+                <Ellipse x:Name="StrokeWidthEllipse5" Width="27" Height="27" Fill="#f5deb3"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <!--Button to change Color-->
+        <Button Style="{StaticResource ColorButton}" Margin="55,10,0,0" Click="BlackColor">
+            <Button.Content>
+                <Ellipse Fill="Black"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,10,0,0" Click="SlateGrayColor">
+            <Button.Content>
+                <Ellipse Fill="#708090"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,10,0,0" Click="WhiteColor">
+            <Button.Content>
+                <Ellipse Fill="#F2F2F2"></Ellipse>
+            </Button.Content>
+        </Button>
+
+
+        <Button Style="{StaticResource ColorButton}" Margin="55,90,0,0" Click="MediumOrchidColor">
+            <Button.Content>
+                <Ellipse Fill="#BA55D3"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,90,0,0" Click="DarkOrchid">
+            <Button.Content>
+                <Ellipse Fill="#9932CC"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,90,0,0" Click="DarkBlueColor">
+            <Button.Content>
+                <Ellipse Fill="#00008B"></Ellipse>
+            </Button.Content>
+        </Button>
+
+
+        <Button Style="{StaticResource ColorButton}" Margin="55,170,0,0" Click="MediumSlateBlueColor">
+            <Button.Content>
+                <Ellipse Fill="#7B68EE"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,170,0,0" Click="LightSkyBlueColor">
+            <Button.Content>
+                <Ellipse Fill="#87CEFA"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,170,0,0" Click="YellowGreenColor">
+            <Button.Content>
+                <Ellipse Fill="#9ACD32"></Ellipse>
+            </Button.Content>
+        </Button>
+
+
+        <Button Style="{StaticResource ColorButton}" Margin="55,250,0,0" Click="GreenColor">
+            <Button.Content>
+                <Ellipse Fill="#008000"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,250,0,0" Click="YellowColor">
+            <Button.Content>
+                <Ellipse Fill="#FFFF00"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,250,0,0" Click="OrangeColor">
+            <Button.Content>
+                <Ellipse Fill="#FFA500"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <Button Style="{StaticResource ColorButton}" Margin="55,330,0,0" Click="PinkColor">
+            <Button.Content>
+                <Ellipse Fill="#FFC0CB"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,330,0,0" Click="HotPinkColor">
+            <Button.Content>
+                <Ellipse Fill="#FF69B4"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,330,0,0" Click="RedColor">
+            <Button.Content>
+                <Ellipse Fill="#FF0000"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <Button Style="{StaticResource ColorButton}" Margin="55,410,0,0" Click="FireBrickColor">
+            <Button.Content>
+                <Ellipse Fill="#B22222"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="140,410,0,0" Click="AnthiqueWhiteColor">
+            <Button.Content>
+                <Ellipse Fill="#FAEBD7"></Ellipse>
+            </Button.Content>
+        </Button>
+        <Button Style="{StaticResource ColorButton}" Margin="225,410,0,0" Click="SaddleBrownColor">
+            <Button.Content>
+                <Ellipse Fill="#8B4513"></Ellipse>
+            </Button.Content>
+        </Button>
+
+        <Label Style="{StaticResource currentColorLabel}" Margin="53,490,0,0">
+            <Label.Content>
+                <Rectangle x:Name="CurrentColor" Width="235" Height="70" Fill="Black" Margin="-5,-5,-5,-5" ></Rectangle>
+            </Label.Content>
+        </Label>
+
+
+
+        <!--Button to modify Draw-->
+        <Button x:Name="penState" Style="{StaticResource ModifyDrawButton}" Margin="0,10,190,0" Click="OnPen" Background="#303030">
+            <Image Source="Resource/pen.png"/>
+        </Button>
+        <Button x:Name="rubberState" Style="{StaticResource ModifyDrawButton}" Margin="0,10,65,0" Click="OnRubber"  Background="#505050">
+            <Image Source="Resource/rubber.png"/>
+        </Button>
+
+
+        <Button x:Name="squareState" Style="{StaticResource ModifyDrawButton}" Margin="0,120,190,0" Click="OnSquare"  Background="#505050">
+            <Image Source="Resource/square.png"/>
+        </Button>
+        <Button x:Name="circleState" Style="{StaticResource ModifyDrawButton}" Margin="0,120,65,0" Click="OnCircle"  Background="#505050">
+            <Image Source="Resource/circle.png"/>
+        </Button>
+
+
+        <Button x:Name="squareFilledState" Style="{StaticResource ModifyDrawButton}" Margin="0,230,190,0" Click="OnSquareFilled" Background="#505050">
+            <Image Source="Resource/squareFilled.png"/>
+        </Button>
+        <Button x:Name="circleFilledState" Style="{StaticResource ModifyDrawButton}" Margin="0,230,65,0" Click="OnCircleFilled" Background="#505050">
+            <Image Source="Resource/circleFilled.png"/>
+        </Button>
+
+
+        <Button x:Name="lineState"  Style="{StaticResource ModifyDrawButton}" Margin="0,340,190,0" Click="OnLine" Background="#505050">
+            <Image Source="Resource/line.png"/>
+        </Button>
+        <Button  x:Name="fillState"  Style="{StaticResource ModifyDrawButton}" Margin="0,340,65,0" Click="OnFill" Background="#505050">
+            <Image Source="Resource/fill.png"/>
+        </Button>
+
+
+        <Button Style="{StaticResource ModifyDrawButton}" Margin="0,450,190,0" Click="OnCancel" Background="#505050">
+            <Image Source="Resource/goBack.png"/>
+        </Button>
+        <Button Style="{StaticResource ModifyDrawButton}" Margin="0,450,65,0" Click="OnRestore" Background="#505050">
+            <Image Source="Resource/goFront.png"/>
+        </Button>
+
+        <!--Button to terminate-->
+        <Button Style="{StaticResource EndButton}" Margin="826,0,0,0" Click="OnFinish"/>
+
+    </Grid>
+</UserControl>

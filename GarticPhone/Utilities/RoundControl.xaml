@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="GarticPhone.Utilities.RoundControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GarticPhone.Utilities"
+             mc:Ignorable="d" 
+             d:DesignHeight="75" d:DesignWidth="350">
+    <Grid>
+        <Label Style="{StaticResource RoundLabel}" Content="{Binding LabelRound}" Background="#606060" Width="350" Height="75" FontSize="50"></Label>
+    </Grid>
+</UserControl>

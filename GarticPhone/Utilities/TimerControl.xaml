@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="GarticPhone.Utilities.TimerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GarticPhone.Utilities"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="350"
+             Loaded="OnLoaded">
+    <Grid>
+        <skia:SKElement x:Name="skElement" PaintSurface="OnTimerSurface"/>
+    </Grid>
+</UserControl>
